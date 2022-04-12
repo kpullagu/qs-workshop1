@@ -1,18 +1,20 @@
-global:
-  owner: tonynv@amazon.com
-  qsname: qs-workshop
+project:
+  name: qs-workshop
   regions:
-    - ap-southeast-1
-    - ap-southeast-2
-    - eu-central-1
-    - eu-west-1
-    - us-east-1
-    - us-west-1
-    - us-west-2
-  reporting: true
+  - ap-southeast-1
+  - us-east-1
+  - us-west-2
+  - eu-central-1
 tests:
-  lab-master-vpc:
-    parameter_input: workshop_input.json 
-    template_file: master.template.yaml
+  default:
+    template: ./templates/master.template.yaml
     regions:
-      - us-west-2
+    - us-east-1
+    parameters:
+      AvailabilityZones: "$[taskcat_getaz_2]"
+      EmailAddress: email@yourdomain.com
+      KeyPairName: YOUR-KEYPAIR-HERE
+      WebserverCIDR: "0.0.0.0/0"
+      QSS3KeyPrefix: "qs-workshop/"
+      QSS3BucketName: "$[taskcat_autobucket]"
+      QSS3BucketRegion: "$[taskcat_current_region]"    
